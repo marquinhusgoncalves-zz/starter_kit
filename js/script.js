@@ -1,2 +1,2 @@
-!function(n){function o(o){var e=n(this),i=n(".mobile-nav");e.toggleClass("is-open"),i.toggleClass("is-open")}var e=n(".mobile-nav-toggle");n(document).ready(function(){e.on("click",o)})}(jQuery);
+!function(o){function t(t){var n=o(this),e=o(".mobile-nav");n.toggleClass("is-open"),e.toggleClass("is-open")}function n(t){var n=o(this),e=n.attr("href"),a=o(e);a.length>0&&(t.preventDefault(),i.animate({scrollTop:a.offset().top},l.duration))}var e,a=o('a[href^="#"]'),i=o("html, body"),l={duration:300};o(document).ready(function(){e=o(".mobile-nav-toggle"),e.on("click",t),a.on("click",n)})}(jQuery);
 //# sourceMappingURL=maps/script.js.map
