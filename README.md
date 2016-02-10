@@ -1,5 +1,5 @@
 # Project Starter
-Projeto Open Source da [MUNDO S.A](http://mundosa.com.br/) para iniciar projetos usando JADE, SASS, BOURBON, NEAT, GULP com minificação, concatenação e otimização de imagens.
+Projeto Open Source do [Daniel Mota](http://danielmota.xyz/) para iniciar projetos usando JADE, SASS, BOURBON, NEAT, GULP com minificação, concatenação e otimização de imagens.
 
 ## How to use?
 
