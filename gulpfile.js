@@ -7,8 +7,7 @@ var   gulp = require("gulp"),
         pngquant = require('imagemin-pngquant'),
         uglify = require('gulp-uglify'),
         concat = require('gulp-concat'),
-        browserSync = require('browser-sync'),
-        appDir	= "localhost/~danielmota/starter_kit";
+        browserSync = require('browser-sync');
 
 gulp.task('default', ['watch'], function() {
     gulp.start('browser-sync', 'jade', 'sass', 'images', 'scriptsJs');
@@ -59,10 +58,11 @@ gulp.task('watch', function() {
 });
 
 gulp.task('browser-sync', function() {
-    browserSync({
-		proxy: appDir,
-		notify: false
-	});
+  browserSync.init({
+      server: {
+          baseDir: "./"
+      }
+  });
 
     gulp.watch('source/css/**/*.sass', ['sass']).on('change', browserSync.reload);
     gulp.watch('source/jade/**/*.jade', ['jade']).on('change', browserSync.reload);
