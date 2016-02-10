@@ -378,4 +378,7 @@ body {
   color: white;
   background-color: tomato; }
 
+img {
+  max-width: 100%; }
+
 /*# sourceMappingURL=maps/style.css.map */
