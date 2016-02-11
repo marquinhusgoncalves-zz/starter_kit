@@ -65,7 +65,7 @@ gulp.task('watch', function() {
         gulp.run('images');
     });
     gulp.watch('source/js/**/*', ['scriptsJs']);
-    gulp.watch('./**.*').on('change', reload);
+    gulp.watch('./**/*').on('change', reload);
 });
 
 gulp.task('browser-sync', ['watch'], function() {
