@@ -1,0 +1,42 @@
+nav
+  width: 100%
+  height: 30px
+  display: flex
+  justify-content: flex-end
+
+.humberger-wrap
+  width: 30px
+  height: 30px
+  display: flex
+  align-items: center
+  cursor: pointer
+  z-index: 100
+
+  span,
+  span:before,
+  span:after
+    content: ""
+    display: block
+    width: 100%
+    height: 3px
+    background: black
+    position: relative
+
+    transition: all 0.3s ease-in-out
+
+  span:before
+    top: 9px
+
+  span:after
+    top: -12px
+
+  &:hover span
+    background: transparent
+
+  &:hover span:before
+    transform: rotate(405deg)
+    top: 0
+
+  &:hover span:after
+    transform: rotate(-405deg)
+    top: -3px

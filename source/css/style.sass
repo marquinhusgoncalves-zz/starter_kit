@@ -2,12 +2,27 @@
 @import '0-tools/bourbon/bourbon'
 @import '0-tools/neat/neat'
 
+@import 'humberger-menu'
+
 body
   margin: 0
-  padding: 20px 50px
+  padding: 20px 30px
   color: white
   background:
       color: tomato
 
+a
+  color: white
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
 img
   max-width: 100%
+
+ul
+  padding-left: 0
+
+li
+  list-style: none
+  margin-bottom: 10px

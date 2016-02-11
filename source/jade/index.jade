@@ -1,3 +1,10 @@
+mixin nav-content()
+  ul
+    li: a(href="#") About
+    li: a(href="#") Services
+    li: a(href="#") Portfolio
+    li: a(href="#") Contact
+
 doctype html
 
 html(lang="en")
@@ -9,7 +16,12 @@ html(lang="en")
         link(rel='stylesheet' type='text/css' href='css/style.css')
 
     body
-        h1 Hello World!        
+        nav
+          .humberger-wrap: span
+
+        +nav-content()
+
+        h1 Hello World!
         p by Daniel Mota
 
         script(src="js/script.js")
