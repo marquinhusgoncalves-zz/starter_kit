@@ -1,78 +1,76 @@
-var   gulp = require("gulp"),
-      sass = require("gulp-sass"),
-      jade = require("gulp-jade"),
-      sourcemaps = require('gulp-sourcemaps'),
-      autoprefixer = require('gulp-autoprefixer'),
-      imagemin = require('gulp-imagemin'),
-      imageminJpegtran = require('imagemin-jpegtran'),
-      imageminSvgo = require('imagemin-svgo'),
-      imageminPngquant = require('imagemin-pngquant'),
-      imageminGifsicle = require('imagemin-gifsicle'),
-      uglify = require('gulp-uglify'),
-      concat = require('gulp-concat'),
-      browserSync = require('browser-sync'),
-      reload = browserSync.reload;
+var gulp = require('gulp'),
+    plumber = require('gulp-plumber'),
+    rename = require('gulp-rename'),
+    autoprefixer = require('gulp-autoprefixer'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify'),
+    imagemin = require('gulp-imagemin'),
+    cache = require('gulp-cache'),
+    minifycss = require('gulp-minify-css'),
+    sass = require('gulp-sass'),
+    jade = require("gulp-jade"),
+    browserSync = require('browser-sync');
 
-gulp.task('default', ['browser-sync'], function() {
-    gulp.start('jade', 'sass', 'scriptsJs', 'images');
+gulp.task('browser-sync', function() {
+  browserSync({
+    server: {
+       baseDir: "./"
+    }
+  });
 });
 
-gulp.task('sass', function () {
-    return gulp.src('source/css/**/*.sass')
-        .pipe(sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer( ['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {
-          cascade: true
-        }))
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./css'));
+gulp.task('bs-reload', function () {
+  browserSync.reload();
+});
+
+gulp.task('images', function(){
+  gulp.src('source/img/**/*')
+    .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    .pipe(gulp.dest('img/'));
+});
+
+gulp.task('styles', function(){
+  gulp.src(['source/styles/**/*.sass'])
+    .pipe(plumber({
+      errorHandler: function (error) {
+        console.log(error.message);
+        this.emit('end');
+    }}))
+    .pipe(sass())
+    .pipe(autoprefixer('last 2 versions'))
+    .pipe(gulp.dest('css/'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('css/'))
+    .pipe(browserSync.reload({stream:true}))
+});
+
+gulp.task('scripts', function(){
+  return gulp.src('source/js/**/*.js')
+    .pipe(plumber({
+      errorHandler: function (error) {
+        console.log(error.message);
+        this.emit('end');
+    }}))
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest('js/'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('js/'))
+    .pipe(browserSync.reload({stream:true}))
 });
 
 gulp.task('jade', function () {
-    return gulp.src('source/jade/**/*.jade')
+    return gulp.src('source/jade/**/!(_)*.jade')
         .pipe(jade({
             pretty: true
         }))
         .pipe(gulp.dest('./'))
 });
 
-gulp.task('images', function() {
-  	return gulp.src('source/img/**/*')
-        .pipe(imagemin({
-          imageminJpegtran: [{progressive: true}],
-          imageminSvgo: [{removeViewBox: false}],
-          imageminPngquant: [{quality: '65-80', speed: 4}],
-          imageminGifsicle: [{interlaced: true}]
-        }))
-    		.pipe(gulp.dest('./img'))
-        .pipe(browserSync.stream());
-});
-
-gulp.task('scriptsJs', function() {
-    return gulp.src('source/js/concatenar/*.js')
-        .pipe(sourcemaps.init())
-        .pipe(concat('script.js'))
-        .pipe(gulp.dest('source/js'))
-        .pipe(uglify())
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./js'));
-});
-
-gulp.task('watch', function() {
-    gulp.watch('source/css/**/*.sass', ['sass']);
-    gulp.watch('source/jade/**/*.jade', ['jade']);
-    gulp.watch('source/img/**').on('change', function() {
-        gulp.run('images');
-    });
-    gulp.watch('source/js/**/*', ['scriptsJs']);
-    gulp.watch('./**/*').on('change', reload);
-});
-
-gulp.task('browser-sync', ['watch'], function() {
-    browserSync.init({
-        server: {
-            baseDir: "./"
-        }
-    });
-
+gulp.task('default', ['browser-sync'], function(){
+  gulp.watch("source/styles/**/*.sass", ['styles']);
+  gulp.watch("source/js/**/*.js", ['scripts']);
+  gulp.watch("source/jade/**/*.jade", ['jade']);
+  gulp.watch("*.html", ['bs-reload']);
 });
