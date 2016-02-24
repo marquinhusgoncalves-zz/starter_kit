@@ -7,7 +7,7 @@ Clone the project
 
 ```
 git clone https://github.com/danielsmota/starter_kit.git
-sudo npm install --save-dev
+sudo npm install
 gulp
 ```
 
