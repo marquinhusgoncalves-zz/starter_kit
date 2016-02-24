@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
-    minifycss = require('gulp-minify-css'),
+    cssnano = require('gulp-cssnano'),
     sass = require('gulp-sass'),
     jade = require("gulp-jade"),
     browserSync = require('browser-sync');
@@ -40,7 +40,7 @@ gulp.task('styles', function(){
     .pipe(autoprefixer('last 2 versions'))
     .pipe(gulp.dest('css/'))
     .pipe(rename({suffix: '.min'}))
-    .pipe(minifycss())
+    .pipe(cssnano())
     .pipe(gulp.dest('css/'))
     .pipe(browserSync.reload({stream:true}))
 });
